@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 
 class Chatpage extends StatefulWidget {
-  const Chatpage({super.key});
+
+  const Chatpage({super.key,});
 
   @override
   State<Chatpage> createState() => _ChatpageState();

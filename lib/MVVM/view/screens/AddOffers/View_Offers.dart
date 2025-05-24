@@ -1,20 +1,24 @@
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/utils/customeSizedbox.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Add_offers.dart';
-
-
+import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Edit_offer.dart';
 
 class ViewOffers extends StatefulWidget {
-  const ViewOffers({super.key});
+  final Function(Widget widget) onNavigate;
+  final Function(Widget widget) onNavigate2;
+  ViewOffers({super.key, required this.onNavigate, required this.onNavigate2});
 
   @override
   State<ViewOffers> createState() => _ViewOffersState();
 }
 
 class _ViewOffersState extends State<ViewOffers> {
-  final List _Adds = ["assets/add1.png","assets/add2.png","assets/add3.jpg",];
+  final List _Adds = [
+    "assets/add1.png",
+    "assets/add2.png",
+    "assets/add3.jpg",
+  ];
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -40,7 +44,9 @@ class _ViewOffersState extends State<ViewOffers> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 75,),
+                const SizedBox(
+                  width: 75,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -49,43 +55,56 @@ class _ViewOffersState extends State<ViewOffers> {
                       style: TextStyle(fontSize: 20),
                     ),
                     h30,
-                     MaterialButton(
-            color: offerbutton1,
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            minWidth: 248,
-            height: 74,
-            onPressed: () {
-              // function for Add offer
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const AddOffers()));
-            },
-            child: const Text("Delete",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 36),)
-          )
+                    MaterialButton(
+                        color: offerbutton1,
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        minWidth: 248,
+                        height: 74,
+                        onPressed: () {
+                          // function for Add offer
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const AddOffers()));
+                        },
+                        child: const Text(
+                          "Delete",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 36),
+                        ))
                   ],
                 ),
-                const SizedBox(width: 22,),
+                const SizedBox(
+                  width: 22,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   const Text(
+                    const Text(
                       "End : 23/6/2023",
                       style: TextStyle(fontSize: 20),
                     ),
                     h30,
                     MaterialButton(
-            color: offerbutton2,
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            minWidth: 248,
-            height: 74,
-            onPressed: () {
-              // function for Add offer
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const AddOffers()));
-            },
-            child:const Text("Edit",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 36),)
-          )
+                        color: offerbutton2,
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        minWidth: 248,
+                        height: 74,
+                        onPressed: () {
+                          // function for Add offer
+                          // Navigator.push(
+                          //     context, MaterialPageRoute(builder: (_) => const AddOffers()));
+                          widget.onNavigate(EditOffer());
+                        },
+                        child: const Text(
+                          "Edit",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 36),
+                        ))
                   ],
                 )
               ],
@@ -99,14 +118,15 @@ class _ViewOffersState extends State<ViewOffers> {
           child: MaterialButton(
             color: Colors.white,
             elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-           
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             minWidth: 100,
             height: 100,
             onPressed: () {
               // function for Add offer
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const AddOffers()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (_) => const AddOffers()));
+              widget.onNavigate2(AddOffers());
             },
             child: const Icon(
               Icons.add,

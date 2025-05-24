@@ -1,14 +1,18 @@
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_customer_list.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_customer_orderpage.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_products.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_profile.dart';
 
-
+import '../ChatPage.dart';
 
 class ShopownerList extends StatefulWidget {
-  const ShopownerList({super.key});
+  final Function(Widget widget) onNavigate;
+  final Function(Widget widget) onNavigate2;
+
+  const ShopownerList(
+      {super.key, required this.onNavigate, required this.onNavigate2});
 
   @override
   State<ShopownerList> createState() => _ShopownerListState();
@@ -16,6 +20,8 @@ class ShopownerList extends StatefulWidget {
 
 class _ShopownerListState extends State<ShopownerList> {
   int count = 1;
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,8 @@ class _ShopownerListState extends State<ShopownerList> {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(iconicGreen),
-                      foregroundColor: const WidgetStatePropertyAll(Colors.white)),
+                      foregroundColor:
+                          const WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {
                     // TODO: Add customer functionality
                   },
@@ -159,14 +166,10 @@ class _ShopownerListState extends State<ShopownerList> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                 MaterialButton(
+                                MaterialButton(
                                   onPressed: () {
                                     // code for customer chat and order page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const ShopownerProducts()));
+                                    widget.onNavigate(ShopownerProducts());
                                   },
                                   child: Column(
                                     children: [
@@ -186,11 +189,12 @@ class _ShopownerListState extends State<ShopownerList> {
                                 MaterialButton(
                                   onPressed: () {
                                     // code for customer shop Item page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const ShopownerCustomerList()));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (_) =>
+                                    //             const ShopownerCustomerList()));
+                                    widget.onNavigate2(ShopownerCustomerList());
                                   },
                                   child: Column(
                                     children: [

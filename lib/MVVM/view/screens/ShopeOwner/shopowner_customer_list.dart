@@ -1,13 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ChatPage.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_customer_orderpage.dart';
 
-
-
 class ShopownerCustomerList extends StatefulWidget {
-  const ShopownerCustomerList({super.key});
+
+  const ShopownerCustomerList({super.key,});
 
   @override
   State<ShopownerCustomerList> createState() => _ShopownerCustomerListState();
@@ -15,7 +13,7 @@ class ShopownerCustomerList extends StatefulWidget {
 
 class _ShopownerCustomerListState extends State<ShopownerCustomerList> {
   int count = 1;
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +42,6 @@ class _ShopownerCustomerListState extends State<ShopownerCustomerList> {
                     ),
                   ),
                 ),
-               
               ],
             ),
           ),
@@ -153,10 +150,10 @@ class _ShopownerCustomerListState extends State<ShopownerCustomerList> {
                                 MaterialButton(
                                   onPressed: () {
                                     // code for customer chat  page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const Chatpage()));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (_) => const Chatpage()));
                                   },
                                   child: Column(
                                     children: [
@@ -179,11 +176,12 @@ class _ShopownerCustomerListState extends State<ShopownerCustomerList> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => const ShopownerCustomerOrderpage()));
+                                            builder: (_) =>
+                                                const ShopownerCustomerOrderpage()));
                                   },
                                   child: Column(
                                     children: [
-                                       SizedBox(
+                                      SizedBox(
                                         width: 40,
                                         child: Image.asset(
                                           "assets/Order2.png",

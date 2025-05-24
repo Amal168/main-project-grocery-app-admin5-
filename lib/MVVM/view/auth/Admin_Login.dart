@@ -7,6 +7,7 @@ import 'package:grocery_app_admin5/MVVM/utils/custometextformfield.dart';
 import 'package:grocery_app_admin5/MVVM/view/auth/Register_page_admin.dart';
 import 'package:grocery_app_admin5/MVVM/view/auth/forgot_Password_Admin.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/admin_slidBar.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/sideadmin.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -208,35 +209,6 @@ class _AdminLoginState extends State<AdminLogin> {
                             ),
 
                             const SizedBox(height: 15),
-
-                            // Register now
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Don’t have an account?",
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            const RegisterPageAdmin(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "Register now",
-                                    style: TextStyle(
-                                      color: linktext,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
                         ),
                       ),

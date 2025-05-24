@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ChatPage.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/Customer/Customer_order.dart';
-
-
+import 'package:grocery_app_admin5/MVVM/view/screens/Customer/customer_list.dart';
 
 class CustomerShopList extends StatefulWidget {
-  const CustomerShopList({super.key});
+ 
+  const CustomerShopList({
+    super.key,
+    
+  });
 
   @override
   State<CustomerShopList> createState() => _CustomerShopListState();
@@ -15,6 +17,7 @@ class CustomerShopList extends StatefulWidget {
 
 class _CustomerShopListState extends State<CustomerShopList> {
   int count = 1;
+    
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,6 @@ class _CustomerShopListState extends State<CustomerShopList> {
                     ),
                   ),
                 ),
-                
               ],
             ),
           ),
@@ -157,6 +159,7 @@ class _CustomerShopListState extends State<CustomerShopList> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) => const Chatpage()));
+                                    // widget.onNavigate(Chatpage());
                                   },
                                   child: Column(
                                     children: [
@@ -179,11 +182,13 @@ class _CustomerShopListState extends State<CustomerShopList> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => const CustomerOrder()));
+                                            builder: (_) =>
+                                                const CustomerOrder()));
+                                    // widget.onNavigate2(CustomerOrder());
                                   },
                                   child: Column(
                                     children: [
-                                       SizedBox(
+                                      SizedBox(
                                         width: 40,
                                         child: Image.asset(
                                           "assets/Order2.png",

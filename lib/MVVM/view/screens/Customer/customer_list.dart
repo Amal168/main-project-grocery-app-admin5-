@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/Customer/Customer_profile.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/Customer/Customer_shopowner_list.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/customerBlock.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/customerViewProfile.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/customeradd.dart';
 
 class CustomerList extends StatefulWidget {
-  const CustomerList({super.key});
+  final Function(Widget widget) onNavigate;
+
+  const CustomerList({super.key, required this.onNavigate});
 
   @override
   State<CustomerList> createState() => _CustomerListState();
@@ -48,7 +53,6 @@ class _CustomerListState extends State<CustomerList> {
                       foregroundColor:
                           const WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {
-                    // TODO: Add customer functionality
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -68,7 +72,6 @@ class _CustomerListState extends State<CustomerList> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Table(
-                // border: TableBorder.all(),
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: const {
                   0: FixedColumnWidth(60),
@@ -80,14 +83,17 @@ class _CustomerListState extends State<CustomerList> {
                 children: [
                   const TableRow(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
-                        border: Border(
-                            top: BorderSide(),
-                            left: BorderSide(),
-                            right: BorderSide())),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                      border: Border(
+                        top: BorderSide(),
+                        left: BorderSide(),
+                        right: BorderSide(),
+                      ),
+                    ),
                     children: [
                       TableCell(
                           child: Padding(
@@ -165,12 +171,7 @@ class _CustomerListState extends State<CustomerList> {
                               children: [
                                 MaterialButton(
                                   onPressed: () {
-                                    // code for customer chat and order page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const CustomerShopList()));
+                                    widget.onNavigate(const CustomerShopList());
                                   },
                                   child: Column(
                                     children: [
@@ -189,12 +190,21 @@ class _CustomerListState extends State<CustomerList> {
                                 ),
                                 MaterialButton(
                                   onPressed: () {
-                                    // code for customer profile page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const CustomerProfile()));
+                                    // widget.onNavigate(
+                                    //     const CustomerProfile());
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Customerviewprofile(
+                                          name: "customer${index + 1}",
+                                          Email:
+                                              "customer${index + 1}@gmail.com",
+                                          phone: "1234567890",
+                                          location: "nrrbrubuu",
+                                          address: "rububvub",
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Column(
                                     children: [
@@ -204,12 +214,19 @@ class _CustomerListState extends State<CustomerList> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 76,
-                                ),
+                                const SizedBox(width: 76),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // code for customer block
+                                    // TODO: Block logic
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Customerblock(
+                                          name:
+                                              "customer${index + 1}@gmail.com", id: '${index + 1}',
+                                        );
+                                      },
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.blue,
