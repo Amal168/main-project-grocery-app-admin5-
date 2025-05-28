@@ -150,10 +150,11 @@ class _ShopownerCustomerListState extends State<ShopownerCustomerList> {
                                 MaterialButton(
                                   onPressed: () {
                                     // code for customer chat  page
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (_) => const Chatpage()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const Chatpage()));
+                                    
                                   },
                                   child: Column(
                                     children: [

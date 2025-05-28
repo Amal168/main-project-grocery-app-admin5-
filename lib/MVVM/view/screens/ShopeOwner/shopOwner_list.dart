@@ -4,6 +4,9 @@ import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_custom
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_customer_orderpage.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_products.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/shopowner_profile.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/ShopownerViewProfile.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/Shopowneradd.dart';
+import 'package:grocery_app_admin5/MVVM/view/screens/popupScreens/shopownerblock.dart';
 
 import '../ChatPage.dart';
 
@@ -20,8 +23,6 @@ class ShopownerList extends StatefulWidget {
 
 class _ShopownerListState extends State<ShopownerList> {
   int count = 1;
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,12 @@ class _ShopownerListState extends State<ShopownerList> {
                           const WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {
                     // TODO: Add customer functionality
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Shopowneradd();
+                      },
+                    );
                   },
                   child: const Text("Add Customer"),
                 ),
@@ -214,11 +221,19 @@ class _ShopownerListState extends State<ShopownerList> {
                                 MaterialButton(
                                   onPressed: () {
                                     // code for customer profile page
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const ShopownerProfile()));
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Shopownerviewprofile(
+                                          name: "shopowner${index + 1}",
+                                          Email:
+                                              "Shopowner${index + 1}@gmail.com",
+                                          phone: "1234567890",
+                                          location: "nrrbrubuu",
+                                          address: "rububvub",
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Column(
                                     children: [
@@ -234,6 +249,15 @@ class _ShopownerListState extends State<ShopownerList> {
                                 ElevatedButton(
                                   onPressed: () {
                                     // code for customer block
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return shopownerblock(
+                                          name: "shopowner${index + 1}",
+                                        id: "${index+1}",
+                                        );
+                                      },
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.blue,

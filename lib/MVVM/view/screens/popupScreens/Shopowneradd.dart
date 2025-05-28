@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Customeradd extends StatefulWidget {
-  const Customeradd({super.key});
+class Shopowneradd extends StatefulWidget {
+  const Shopowneradd({super.key});
 
   @override
-  State<Customeradd> createState() => _CustomeraddState();
+  State<Shopowneradd> createState() => _CustomeraddState();
 }
 
-class _CustomeraddState extends State<Customeradd> {
+class _CustomeraddState extends State<Shopowneradd> {
   final _formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
@@ -19,6 +19,8 @@ class _CustomeraddState extends State<Customeradd> {
   final phoneController = TextEditingController();
   final locationController = TextEditingController();
   final addressController = TextEditingController();
+  final shoptimeController = TextEditingController();
+  final shopnameController = TextEditingController();
 
   bool isLoading = false;
 
@@ -55,11 +57,13 @@ class _CustomeraddState extends State<Customeradd> {
           'place': addressController.text.trim(),
           'email': emailController.text.trim(),
           'location': locationController.text.trim(),
-          'role': 'Customer',
+          'shoptime': shoptimeController.text.trim(),
+          'shopname': shopnameController.text.trim(),
+          'role': 'ShopOwner',
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Customer added successfully")),
+          const SnackBar(content: Text("Shopowner added successfully")),
         );
         Navigator.pop(context);
       }
@@ -114,7 +118,7 @@ class _CustomeraddState extends State<Customeradd> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Text("Add New Customer", style: TextStyle(fontWeight: FontWeight.bold)),
+      title: const Text("Add New Shopowner", style: TextStyle(fontWeight: FontWeight.bold)),
       content: SizedBox(
         width: 400,
         child: SingleChildScrollView(
@@ -141,10 +145,13 @@ class _CustomeraddState extends State<Customeradd> {
                     controller: confirmController,
                     isPassword: true),
                 _buildTextField(label: "Name", controller: nameController),
+                _buildTextField(label: "shopname", controller: shopnameController),
+                _buildTextField(label: "shoptime", controller: shoptimeController),
                 _buildTextField(
                     label: "Phone",
                     controller: phoneController,
                     inputType: TextInputType.phone),
+                    
                 _buildTextField(label: "Location", controller: locationController),
                 _buildTextField(label: "Address", controller: addressController),
               ],

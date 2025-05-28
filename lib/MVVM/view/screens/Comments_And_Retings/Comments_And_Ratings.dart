@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/customeSizedbox.dart';
+class Comment {
+  final String customerName;
+  final String phoneNumber;
+  final int rating;
+  final String dateTime;
+  final String comment;
 
+  Comment({
+    required this.customerName,
+    required this.phoneNumber,
+    required this.rating,
+    required this.dateTime,
+    required this.comment,
+  });
+}
 class CommentsAndRatings extends StatefulWidget {
   const CommentsAndRatings({super.key});
 
@@ -9,7 +23,25 @@ class CommentsAndRatings extends StatefulWidget {
 }
 
 class _CommentsAndRatingsState extends State<CommentsAndRatings> {
-  
+  // List of comments
+  List<Comment> comments = List.generate(
+    15,
+    (index) => Comment(
+      customerName: 'Customer ${index + 1}',
+      phoneNumber: '1234567890',
+      rating: index + 1,
+      dateTime: 'dd/mm/yyyy hh:mm:ss',
+      comment: 'Example comment ${index + 1}',
+    ),
+  );
+
+  // Delete function
+  void _deleteComment(int index) {
+    setState(() {
+      comments.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,7 +70,6 @@ class _CommentsAndRatingsState extends State<CommentsAndRatings> {
                     ),
                   ),
                 ),
-                
               ],
             ),
           ),
@@ -49,7 +80,6 @@ class _CommentsAndRatingsState extends State<CommentsAndRatings> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Table(
-                // border: TableBorder.all(),
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: const {
                   0: FixedColumnWidth(60),
@@ -61,114 +91,129 @@ class _CommentsAndRatingsState extends State<CommentsAndRatings> {
                 children: [
                   const TableRow(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
-                        border: Border(
-                            top: BorderSide(),
-                            left: BorderSide(),
-                            right: BorderSide())),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                      border: Border(
+                        top: BorderSide(),
+                        left: BorderSide(),
+                        right: BorderSide(),
+                      ),
+                    ),
                     children: [
                       TableCell(
-                          child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("No",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      )),
-                      TableCell(
-                          child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Customer Name & Phone Number",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                      )),
-                      TableCell(
-                          child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Rating",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                      )),
-                      TableCell(
-                          child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Comments",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                      )),
-                      TableCell(
-                          child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          " ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("No", style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
-                      )),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Customer Name & Phone Number",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Rating",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Comments",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            " ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   ...List.generate(
-                    15,
+                    comments.length,
                     (index) {
+                      final comment = comments[index];
                       return TableRow(
                         decoration: BoxDecoration(
-                            border: Border.all(), color: Colors.white),
+                          border: Border.all(),
+                          color: Colors.white,
+                        ),
                         children: [
                           TableCell(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("${index + 1}"),
-                          )),
-                          TableCell(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text("Customer ${index + 1}",
-                                    textAlign: TextAlign.center),
-                                const Text("1234567890", textAlign: TextAlign.center)
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text("${index + 1}"),
                             ),
-                          )),
+                          ),
                           TableCell(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("${index+1}", textAlign: TextAlign.center),
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    )
-                                  ],
-                                ),
-                                const Text("dd/mm/yyyy" "hh/ss/mm ")
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(comment.customerName, textAlign: TextAlign.center),
+                                  Text(comment.phoneNumber, textAlign: TextAlign.center),
+                                ],
+                              ),
                             ),
-                          )),
+                          ),
                           TableCell(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              "Example comments${index + 1}",
-                              textAlign: TextAlign.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("${comment.rating}", textAlign: TextAlign.center),
+                                      const Icon(Icons.star, color: Colors.yellow),
+                                    ],
+                                  ),
+                                  Text(comment.dateTime),
+                                ],
+                              ),
                             ),
-                          )),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                comment.comment,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
                           TableCell(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
-                                    onPressed: () {
-                                      // function for deleting the comments
-                                    },
-                                    icon: const Icon(Icons.delete,size: 40,)),
-                                    w10,
+                                  onPressed: () => _deleteComment(index),
+                                  icon: const Icon(Icons.delete, size: 40),
+                                ),
+                                w10,
                               ],
                             ),
                           ),
