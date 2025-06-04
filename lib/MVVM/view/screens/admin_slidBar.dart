@@ -68,23 +68,60 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
 
   @override
   Widget build(BuildContext context) {
+    // Colors
+    final Color sidebarBackground = Colors.blueGrey.shade900;
+    final Color selectedColor = Colors.lightBlueAccent.shade100;
+    final Color iconColor = Colors.white70;
+    final Color selectedIconColor = Colors.blue.shade700;
+    final TextStyle labelStyle = const TextStyle(
+      color: Colors.white70,
+      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      letterSpacing: 0.8,
+    );
+    final TextStyle selectedLabelStyle = const TextStyle(
+      color: Colors.black87,
+      fontWeight: FontWeight.w700,
+      fontSize: 15,
+      letterSpacing: 0.9,
+    );
+
+    final List<String> labels = [
+      "Dashboard",
+      "Customer",
+      "Shops",
+      "Comments & Ratings",
+      "Add Offers"
+    ];
+    final List<Widget> icons = [
+      const Icon(Icons.dashboard_outlined, size: 28),
+      Image.asset("assets/cuotomericpn.png", width: 26, color: iconColor),
+      Image.asset("assets/shopicon.png", width: 26, color: iconColor),
+      Image.asset("assets/commentratingicon.png", width: 26, color: iconColor),
+      Image.asset("assets/offericon.png", width: 26, color: iconColor),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        shape: Border.all(),
-        title: const Row(
+        elevation: 2,
+        backgroundColor: Colors.white,
+        shape: Border.all(color: Colors.grey.shade300),
+        title: Row(
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundImage:
-                  AssetImage("assets/Screenshot 2025-03-26 131955.png"),
+              backgroundImage: const AssetImage("assets/Screenshot 2025-03-26 131955.png"),
+              backgroundColor: Colors.transparent,
             ),
-            SizedBox(width: 8),
-            Text(
+            const SizedBox(width: 12),
+            const Text(
               "List2Local",
               style: TextStyle(
                 fontFamily: "Inria_Sans",
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                letterSpacing: 1.1,
               ),
             ),
           ],
@@ -92,71 +129,114 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
         actions: [
           GestureDetector(
             onTap: () {},
-            child: Row(
-              children: [
-                const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text("Admin Name"),
-                    Text("Administrator", style: TextStyle(color: Colors.grey)),
-                  ],
-                ),
-                w10,
-                const CircleAvatar(
-                  radius: 18,
-                  backgroundImage: AssetImage("assets/dummy profile photo.jpg"),
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              child: Row(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const [
+                      Text(
+                        "Admin Name",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "Administrator",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  w10,
+                  const CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage("assets/dummy profile photo.jpg"),
+                  ),
+                ],
+              ),
             ),
           ),
-          w15
+          w15,
         ],
-        backgroundColor: Colors.white,
       ),
       body: Row(
         children: [
           Container(
-            width: 150,
-            color: Colors.white,
+            width: 180,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [sidebarBackground.withOpacity(0.95), sidebarBackground],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(2, 0),
+                  blurRadius: 6,
+                )
+              ],
+            ),
             child: Column(
               children: [
-                const SizedBox(height: 20),
-                ...List.generate(5, (index) {
-                  final List<String> labels = [
-                    "Dashboard",
-                    "CUSTOMER",
-                    "SHOPS",
-                    "COMMENTS\nRATINGS",
-                    "ADD \n OFFERS"
-                  ];
-                  final List<Widget> icons = [
-                    const Icon(Icons.dashboard, size: 40),
-                    const Image(image: AssetImage("assets/cuotomericpn.png"), width: 30),
-                    const Image(image: AssetImage("assets/shopicon.png"), width: 30),
-                    const Image(image: AssetImage("assets/commentratingicon.png"), width: 30),
-                    const Image(image: AssetImage("assets/offericon.png"), width: 30),
-                  ];
+                const SizedBox(height: 30),
+                ...List.generate(labels.length, (index) {
+                  final bool isSelected = _selectedindex == index;
 
-                  return GestureDetector(
-                    onTap: () => _selectpage(index),
-                    child: Card(
-                      color: Colors.white,
-                      elevation: _selectedindex == index ? 10 : 0,
-                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () => _selectpage(index),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: isSelected ? selectedColor : Colors.transparent,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.blueAccent.withOpacity(0.25),
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 10,
+                                  )
+                                ]
+                              : null,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            icons[index],
-                            const SizedBox(height: 10),
-                            Text(labels[index], textAlign: TextAlign.center),
+                            IconTheme(
+                              data: IconThemeData(
+                                color: isSelected ? selectedIconColor : iconColor,
+                                size: 26,
+                              ),
+                              child: icons[index],
+                            ),
+                            const SizedBox(width: 18),
+                            Expanded(
+                              child: Text(
+                                labels[index],
+                                style: isSelected ? selectedLabelStyle : labelStyle,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
                   );
                 }),
+                const Spacer(),
+                // Optional: Add a logout or footer section here if you want
               ],
             ),
           ),
@@ -165,6 +245,7 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
           ),
         ],
       ),
+      backgroundColor: Colors.grey.shade50,
     );
   }
 }

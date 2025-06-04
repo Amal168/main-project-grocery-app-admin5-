@@ -13,6 +13,8 @@ class Customerblock extends StatelessWidget {
       title: Text("Block"),
       actions: [
         MaterialButton(
+          elevation: 10,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           color: toggle2color,
           onPressed: () {
             Navigator.pop(context);
@@ -23,6 +25,8 @@ class Customerblock extends StatelessWidget {
           ),
         ),
         MaterialButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          elevation: 10,
           color: redbutton,
           onPressed: () {
             Navigator.pop(context);

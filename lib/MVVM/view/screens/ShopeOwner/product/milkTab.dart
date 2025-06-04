@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 
-
 class Milktab extends StatefulWidget {
   const Milktab({super.key});
 
@@ -12,128 +11,153 @@ class Milktab extends StatefulWidget {
 class _MilktabState extends State<Milktab> {
   String radiobuttion = " ";
   int selectIndex = 0;
-  List milk = ["All","packet", "loose", "moore", "thire", "Sambaram","Bottle Loose"];
+  List milk = [
+    "All",
+    "packet",
+    "loose",
+    "moore",
+    "thire",
+    "Sambaram",
+    "Bottle Loose"
+  ];
   Color lowcolor = redbutton;
   Color highcolor = toglecolor;
   int count = 6;
-  bool buttonindex=true;
+  bool buttonindex = true;
   void buttoncolor(index) {
-   setState(() {
+    setState(() {
       buttonindex = index!;
-   });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: Container(
-                height: 40,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black26),borderRadius: BorderRadius.circular(15)),
-                child: ListView.builder(
-                  
-                  scrollDirection: Axis.horizontal,
-                  itemCount: milk.length,
-                  itemBuilder: (context, index) {
-                    return TextButton(
-                        onPressed: () {
-                          setState(() {
-                            selectIndex = index;
-                          });
-                        },
-                        child: Text(
-                          milk[index],
-                        ));
+    return Column(
+      children: [
+        SizedBox(
+          height: 45,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: milk.length,
+            itemBuilder: (context, index) {
+              final bool isSelected = selectIndex == index;
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ChoiceChip(
+                  label: Text(
+                    milk[index],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: isSelected ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  selected: isSelected,
+                  selectedColor: toglecolor,
+                  backgroundColor: Colors.grey[200],
+                  onSelected: (_) {
+                    setState(() {
+                      selectIndex = index;
+                    });
                   },
-                )),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              );
+            },
           ),
-          Expanded(
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: GridView.builder(
               itemCount: 10,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 7,
-                  crossAxisSpacing: 2,
-                  mainAxisSpacing: 3,
-                  mainAxisExtent: 370),
+                crossAxisCount: 5,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                mainAxisExtent: 320,
+              ),
               itemBuilder: (context, index) {
-                switch (selectIndex) {
-                  case 0:
-                    return Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: 118,
-                            height: 121,
-                            // child: Image.asset("asset/images (1).jpg",fit: BoxFit.cover,),
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(image: AssetImage("assets/images.jpg"),fit: BoxFit.cover),
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(30)),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Product Name",
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Only ",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: count < 4 ? lowcolor : highcolor)),
-                              Text("$count ",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: count < 4 ? lowcolor : highcolor)),
-                              Text("Left",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: count < 4 ? lowcolor : highcolor)),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text("100g 20Rs", style: TextStyle(fontSize: 15)),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          
-                        ],
-                      ),
-                    );
-                  case 1:
-                    return const Center(
-                      child: Text("No data"),
-                    );
+                final bool isLowStock = count < 4;
+                final Color stockColor = isLowStock ? redbutton : toglecolor;
+
+                if (selectIndex == 1 && index > 3) {
+                  // Example condition: show less items for non-All categories
+                  return const SizedBox.shrink();
                 }
-                return null;
+
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 6,
+                  shadowColor: Colors.black12,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            "assets/images.jpg",
+                            height: 110,
+                            width: double.infinity,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          "Product Name",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Only ",
+                              style: TextStyle(
+                                color: stockColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              "$count ",
+                              style: TextStyle(
+                                color: stockColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              "left",
+                              style: TextStyle(
+                                color: stockColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Text(
+                          "1kg - ₹45",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

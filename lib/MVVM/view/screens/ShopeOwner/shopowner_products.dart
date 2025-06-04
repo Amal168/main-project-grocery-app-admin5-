@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/customeSizedbox.dart';
 import 'package:grocery_app_admin5/MVVM/utils/sliderpage.dart';
@@ -10,6 +9,7 @@ import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/product/pastTab.
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/product/snacksTab.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/product/soapTab.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/ShopeOwner/product/spiceTab.dart';
+
 class ShopownerProducts extends StatefulWidget {
   const ShopownerProducts({super.key});
 
@@ -18,7 +18,7 @@ class ShopownerProducts extends StatefulWidget {
 }
 
 class _ShopownerProductsState extends State<ShopownerProducts> {
-  List productpages = [
+  final List<Widget> productPages = [
     Alltab(),
     RiceTab(),
     Soaptab(),
@@ -26,17 +26,10 @@ class _ShopownerProductsState extends State<ShopownerProducts> {
     Pasttab(),
     Milktab(),
     Spicetab(),
-    Vegitabletab()
+    Vegitabletab(),
   ];
-  int _selectedindex = 0;
 
-  void _ontapMethod(int index) {
-    setState(() {
-      _selectedindex = index;
-    });
-  }
-
-  List productlist = [
+  final List<String> productList = [
     "All",
     "Rice",
     "Soap",
@@ -44,14 +37,14 @@ class _ShopownerProductsState extends State<ShopownerProducts> {
     "Paste",
     "Milk",
     "Spices",
-    "Vegitables"
+    "Vegetables"
   ];
 
-  int _productIndex = 0;
+  int selectedIndex = 0;
 
-  void _ontapProduct(int index) {
+  void onCategoryTap(int index) {
     setState(() {
-      _productIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -60,30 +53,56 @@ class _ShopownerProductsState extends State<ShopownerProducts> {
     return Column(
       children: [
         const Expanded(child: Sliderpage()),
-        Row(
-          // crossAxisAlignment: CrossAxisAlignment.,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(onPressed: () =>_ontapMethod(0), child: const Text("All")),
-            ElevatedButton(onPressed: () =>_ontapMethod(1), child: const Text("Rice")),
-            ElevatedButton(onPressed: () =>_ontapMethod(2), child: const Text("Soap")),
-            ElevatedButton(onPressed: () =>_ontapMethod(3), child: const Text("Snacks")),
-            ElevatedButton(onPressed: () =>_ontapMethod(4), child: const Text("Paste")),
-            ElevatedButton(onPressed: () =>_ontapMethod(5), child: const Text("Milk")),
-            ElevatedButton(onPressed: () =>_ontapMethod(6), child: const Text("Spices")),
-            ElevatedButton(onPressed: () =>_ontapMethod(7), child: const Text("Vegitables")),
-          ],
-        ),
-        // ListView.builder(
-        //   itemBuilder: (context, index) {
-        //     return ElevatedButton(
-        //         onPressed: () {},
-        //         child: const Text(productlist[i]));
-        //   },
-        // ),
+
         h15,
-        Expanded(child: productpages[_selectedindex])
+
+        // Stylish Category Selector
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: productList.length,
+              itemBuilder: (context, index) {
+                final isSelected = index == selectedIndex;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  child: ChoiceChip(
+                    label: Text(
+                      productList[index],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: isSelected ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    selected: isSelected,
+                    onSelected: (_) => onCategoryTap(index),
+                    selectedColor: Colors.deepPurpleAccent,
+                    backgroundColor: Colors.grey.shade200,
+                    elevation: 3,
+                    pressElevation: 5,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+
+        h15,
+
+        // Product Tab View
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: productPages[selectedIndex],
+          ),
+        ),
       ],
     );
   }

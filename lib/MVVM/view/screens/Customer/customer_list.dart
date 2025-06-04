@@ -184,17 +184,17 @@ class _CustomerListState extends State<CustomerList> {
                               TableCell(
                                   child: Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Text(name, textAlign: TextAlign.center),
+                                child: Text(data[index]['name'], textAlign: TextAlign.center),
                               )),
                               TableCell(
                                   child: Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Text(phone, textAlign: TextAlign.center),
+                                child: Text(data[index]['phone'], textAlign: TextAlign.center),
                               )),
                               TableCell(
                                   child: Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Text(email, textAlign: TextAlign.center),
+                                child: Text(data[index]['email'], textAlign: TextAlign.center),
                               )),
                               TableCell(
                                 child: Row(

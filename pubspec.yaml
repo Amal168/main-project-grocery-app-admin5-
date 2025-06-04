@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^5.6.7
   google_sign_in: ^6.2.2
   firebase_auth: ^5.5.3
+  modal_side_sheet: ^0.0.1
 
 dev_dependencies:
   flutter_test:

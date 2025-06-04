@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
-import 'package:grocery_app_admin5/MVVM/utils/customeSizedbox.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Add_offers.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Edit_offer.dart';
 
 class ViewOffers extends StatefulWidget {
   final Function(Widget widget) onNavigate;
   final Function(Widget widget) onNavigate2;
+
   ViewOffers({super.key, required this.onNavigate, required this.onNavigate2});
 
   @override
@@ -14,125 +14,165 @@ class ViewOffers extends StatefulWidget {
 }
 
 class _ViewOffersState extends State<ViewOffers> {
-  final List _Adds = [
+  final List<String> _adds = [
     "assets/add1.png",
     "assets/add2.png",
     "assets/add3.jpg",
   ];
+
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Expanded(
-        child: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      width: 500,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Image(
-                        image: AssetImage(_Adds[index]),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+          child: ListView.separated(
+            itemCount: _adds.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 24),
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.deepPurple.shade50,
+                      Colors.deepPurple.shade100.withOpacity(0.4),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.deepPurple.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Offer image
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        _adds[index],
+                        // width: 200,
+                        height: 120,
                         fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 75,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "start : 23/5/2023",
-                      style: TextStyle(fontSize: 20),
+
+                    const SizedBox(width: 16),
+
+                    // Offer details
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Special Offer #${index + 1}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepPurple.shade800,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today,
+                                  size: 16, color: Colors.deepPurple),
+                              const SizedBox(width: 8),
+                              Text(
+                                "Start: 23/5/2023",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.deepPurple.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today,
+                                  size: 16, color: Colors.deepPurple),
+                              const SizedBox(width: 8),
+                              Text(
+                                "End: 23/6/2023",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.deepPurple.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    h30,
-                    MaterialButton(
-                        color: offerbutton1,
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        minWidth: 248,
-                        height: 74,
-                        onPressed: () {
-                          // function for Add offer
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const AddOffers()));
-                        },
-                        child: const Text(
-                          "Delete",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 36),
-                        ))
+
+                    // Action buttons on right
+                    Column(
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () => widget.onNavigate(EditOffer()),
+                          icon: const Icon(Icons.edit_outlined),
+                          label: const Text("Edit"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurpleAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            // Replace with delete logic if needed
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const AddOffers()));
+                          },
+                          icon: const Icon(Icons.delete_outline),
+                          label: const Text("Delete"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                const SizedBox(
-                  width: 22,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "End : 23/6/2023",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    h30,
-                    MaterialButton(
-                        color: offerbutton2,
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        minWidth: 248,
-                        height: 74,
-                        onPressed: () {
-                          // function for Add offer
-                          // Navigator.push(
-                          //     context, MaterialPageRoute(builder: (_) => const AddOffers()));
-                          widget.onNavigate(EditOffer());
-                        },
-                        child: const Text(
-                          "Edit",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 36),
-                        ))
-                  ],
-                )
-              ],
-            );
-          },
-        ),
-      ),
-      Positioned(
-          right: 15,
-          bottom: 10,
-          child: MaterialButton(
-            color: Colors.white,
-            elevation: 10,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            minWidth: 100,
-            height: 100,
-            onPressed: () {
-              // function for Add offer
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => const AddOffers()));
-              widget.onNavigate2(AddOffers());
+              );
             },
-            child: const Icon(
-              Icons.add,
-              size: 60,
+          ),
+        ),
+
+        // Add Offer Floating Button
+        Positioned(
+          right: 20,
+          bottom: 20,
+          child: FloatingActionButton.extended(
+            onPressed: () => widget.onNavigate2(AddOffers()),
+            backgroundColor: Colors.deepPurpleAccent,
+            icon: const Icon(Icons.add),
+            label: const Text(
+              'Add Offer',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          ))
-    ]);
+          ),
+        ),
+      ],
+    );
   }
 }
