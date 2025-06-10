@@ -15,6 +15,8 @@ class AdminLogin extends StatefulWidget {
 }
 
 class _AdminLoginState extends State<AdminLogin> {
+  String adminEmail = 'list2localadmin@gmail.com';
+  String adminpass = '123456';
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -137,37 +139,23 @@ class _AdminLoginState extends State<AdminLogin> {
                             GestureDetector(
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  try {
-                                    await Firebaseothsurvices().signin(
-                                      context,
-                                      _email.text.trim(),
-                                      _password.text.trim(),
-                                    );
+                                  if (_email.text == adminEmail &&
+                                      _password.text == adminpass) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Successfully logged in. Welcome!"),
-                                      ),
-                                    );
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => const AdminSlidbar(),
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Login failed: $e"),
-                                      ),
-                                    );
-                                    print(e);
+                                        SnackBar(
+                                            content:
+                                                Text("Entered Scussefully")));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => AdminSlidbar()));
+                                  } else {
+                                     ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text("Somrthing went Wrong")));
                                   }
                                 }
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (_) => AdminSlidbar()));
                               },
                               child: Container(
                                 height: 50,
@@ -186,22 +174,6 @@ class _AdminLoginState extends State<AdminLogin> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            h15,
-
-                            // Google login button
-                            GestureDetector(
-                              onTap: () async {
-                                await Firebaseothsurvices()
-                                    .googlesignin(context);
-                              },
-                              child: SizedBox(
-                                height: 71,
-                                width: 78,
-                                child: Image.asset(
-                                  "assets/google-icon-logo-symbol-free-png.webp",
                                 ),
                               ),
                             ),

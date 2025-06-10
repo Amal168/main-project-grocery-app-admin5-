@@ -75,7 +75,7 @@ class _ShopownerListState extends State<ShopownerList> {
             return const Center(child: Text("No shop owners found."));
           }
 
-          // 🔍 Filter the list based on search query
+   
           final filteredData = data.where((doc) {
             final shopData = doc.data() as Map<String, dynamic>;
             final name = shopData['name'].toString().toLowerCase();
@@ -136,7 +136,7 @@ class _ShopownerListState extends State<ShopownerList> {
                 ),
               ),
 
-              // 🔁 Shop Owners Table
+             
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20.0),
