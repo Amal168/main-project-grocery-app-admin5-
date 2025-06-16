@@ -166,7 +166,7 @@ class _CustomerListState extends State<CustomerList> {
                           final phone = customer['phone'] ?? 'N/A';
                           final email = customer['email'] ?? 'N/A';
                           final location = customer['location'] ?? '';
-                          final address = customer['place'] ?? '';
+                          final address = customer['Address'] ?? '';
                           final id = customer.id;
 
                           return TableRow(

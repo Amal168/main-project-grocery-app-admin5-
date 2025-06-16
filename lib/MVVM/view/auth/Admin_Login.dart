@@ -111,28 +111,27 @@ class _AdminLoginState extends State<AdminLogin> {
                                 return null;
                               },
                               side: 15,
-                              // obscureText: true, // Add this if supported
                             ),
 
                             // Forgot password
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const ForgotPasswordAdmin(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "Forgot password",
-                                  style: TextStyle(color: linktext),
-                                ),
-                              ),
-                            ),
+                            // Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: TextButton(
+                            //     onPressed: () {
+                            //       Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //           builder: (_) =>
+                            //               const ForgotPasswordAdmin(),
+                            //         ),
+                            //       );
+                            //     },
+                            //     child: Text(
+                            //       "Forgot password",
+                            //       style: TextStyle(color: linktext),
+                            //     ),
+                            //   ),
+                            // ),
                             h15,
 
                             // Login button

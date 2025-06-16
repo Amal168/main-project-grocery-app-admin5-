@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app_admin5/MVVM/utils/colors.dart';
 import 'package:grocery_app_admin5/MVVM/utils/customeSizedbox.dart';
+import 'package:grocery_app_admin5/MVVM/view/auth/Admin_Login.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/View_Offers.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/Comments_And_Retings/Comments_And_Ratings.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/Customer/customer_list.dart';
@@ -73,13 +75,13 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
     final Color selectedColor = Colors.lightBlueAccent.shade100;
     final Color iconColor = Colors.white70;
     final Color selectedIconColor = Colors.blue.shade700;
-    final TextStyle labelStyle = const TextStyle(
+    final TextStyle labelStyle = TextStyle(
       color: Colors.white70,
       fontWeight: FontWeight.w600,
       fontSize: 14,
       letterSpacing: 0.8,
     );
-    final TextStyle selectedLabelStyle = const TextStyle(
+    final TextStyle selectedLabelStyle = TextStyle(
       color: Colors.black87,
       fontWeight: FontWeight.w700,
       fontSize: 15,
@@ -103,18 +105,20 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 2,
         backgroundColor: Colors.white,
         shape: Border.all(color: Colors.grey.shade300),
-        title: Row(
+        title: const Row(
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundImage: const AssetImage("assets/Screenshot 2025-03-26 131955.png"),
+              backgroundImage:
+                  AssetImage("assets/Screenshot 2025-03-26 131955.png"),
               backgroundColor: Colors.transparent,
             ),
-            const SizedBox(width: 12),
-            const Text(
+            SizedBox(width: 12),
+            Text(
               "List2Local",
               style: TextStyle(
                 fontFamily: "Inria_Sans",
@@ -128,24 +132,104 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundImage:
+                              AssetImage("assets/dummy profile photo.jpg"),
+                        ),
+                        Text(
+                          "AMAL.S",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        Text(
+                          "Administrator",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Divider(),
+                        MaterialButton(
+                          color: redbutton,
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text("Are You Sure",textAlign: TextAlign.center,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                  actions: [
+                                    ElevatedButton(
+                                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(redbutton),foregroundColor:WidgetStatePropertyAll(Colors.white)),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Cancel")),
+                                    ElevatedButton(
+                                      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(greenbutton),foregroundColor:WidgetStatePropertyAll(Colors.white) ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      AdminLogin()));
+                                        },
+                                        child: Text("Ok"))
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                              ),
+                              w15,
+                              Text(
+                                "Logout",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               child: Row(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text(
-                        "Admin Name",
+                        "AMAL.S",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                           color: Colors.black87,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: 2),
                       Text(
                         "Administrator",
                         style: TextStyle(
@@ -156,10 +240,10 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
                       ),
                     ],
                   ),
-                  w10,
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage("assets/dummy profile photo.jpg"),
+                    backgroundImage:
+                        AssetImage("assets/dummy profile photo.jpg"),
                   ),
                 ],
               ),
@@ -174,7 +258,10 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
             width: 180,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [sidebarBackground.withOpacity(0.95), sidebarBackground],
+                colors: [
+                  sidebarBackground.withOpacity(0.95),
+                  sidebarBackground
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -193,14 +280,17 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
                   final bool isSelected = _selectedindex == index;
 
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12),
                       onTap: () => _selectpage(index),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 14, horizontal: 12),
                         decoration: BoxDecoration(
-                          color: isSelected ? selectedColor : Colors.transparent,
+                          color:
+                              isSelected ? selectedColor : Colors.transparent,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: isSelected
                               ? [
@@ -217,7 +307,8 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
                           children: [
                             IconTheme(
                               data: IconThemeData(
-                                color: isSelected ? selectedIconColor : iconColor,
+                                color:
+                                    isSelected ? selectedIconColor : iconColor,
                                 size: 26,
                               ),
                               child: icons[index],
@@ -226,7 +317,9 @@ class _AdminSlidbarState extends State<AdminSlidbar> {
                             Expanded(
                               child: Text(
                                 labels[index],
-                                style: isSelected ? selectedLabelStyle : labelStyle,
+                                style: isSelected
+                                    ? selectedLabelStyle
+                                    : labelStyle,
                               ),
                             ),
                           ],
