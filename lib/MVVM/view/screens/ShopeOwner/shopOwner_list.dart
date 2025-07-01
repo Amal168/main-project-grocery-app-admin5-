@@ -184,7 +184,7 @@ class _ShopownerListState extends State<ShopownerList> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   MaterialButton(
-                                    onPressed: () => widget.onNavigate(ShopownerProducts()),
+                                    onPressed: () => widget.onNavigate(ShopownerProducts(shopid: shopData['uid'],)),
                                     child: Column(
                                       children: [
                                         Image.asset("assets/Shopadminitem.png", height: 20),
