@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Add_offers.dart';
 import 'package:grocery_app_admin5/MVVM/view/screens/AddOffers/Edit_offer.dart';
 
@@ -7,7 +8,11 @@ class ViewOffers extends StatefulWidget {
   final Function(Widget widget) onNavigate;
   final Function(Widget widget) onNavigate2;
 
-  const ViewOffers({super.key, required this.onNavigate, required this.onNavigate2});
+  const ViewOffers({
+    super.key,
+    required this.onNavigate,
+    required this.onNavigate2,
+  });
 
   @override
   State<ViewOffers> createState() => _ViewOffersState();
@@ -28,7 +33,10 @@ class _ViewOffersState extends State<ViewOffers> {
           ),
           TextButton(
             onPressed: () async {
-              await FirebaseFirestore.instance.collection('offers').doc(docId).delete();
+              await FirebaseFirestore.instance
+                  .collection('offers')
+                  .doc(docId)
+                  .delete();
               Navigator.pop(ctx);
             },
             child: const Text("Delete", style: TextStyle(color: Colors.red)),
@@ -38,32 +46,59 @@ class _ViewOffersState extends State<ViewOffers> {
     );
   }
 
+  String formatTimestamp(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      DateTime dt = timestamp.toDate();
+      return DateFormat('dd MMM yyyy').format(dt);
+    } else if (timestamp is String) {
+      return timestamp;
+    } else {
+      return '';
+    }
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('offers').orderBy('timestamp', descending: true).snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    return Stack(
+      children: [
+        StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('offers')
+              // .orderBy('createdAt', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text("No offers available"));
-        }
+            if (snapshot.hasError) {
+              return const Center(child: Text("Something went wrong"));
+            }
 
-        final offers = snapshot.data!.docs;
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text("No offers available"));
+            }
 
-        return Stack(
-          children: [
-            Padding(
+            final offers = snapshot.data!.docs;
+
+            return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               child: ListView.separated(
                 itemCount: offers.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 24),
                 itemBuilder: (context, index) {
                   final offer = offers[index];
-                  final data = offer.data() as Map<String, dynamic>;
+                  final data = offer.data() as Map<String, dynamic>?;
+
+                  if (data == null) return const SizedBox();
                   final docId = offer.id;
+
+                  final imageUrl = data['imageUrl']?.toString() ?? '';
+                  final title = data["title"]?.toString() ?? "Special Offer";
+
+                  final start = formatTimestamp(data["startingDate"]);
+                  final end = formatTimestamp(data["offerEndDate"]);
 
                   return Container(
                     decoration: BoxDecoration(
@@ -90,9 +125,13 @@ class _ViewOffersState extends State<ViewOffers> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(18),
-                          child: data['imagePath'] != null && data['imagePath']!.isNotEmpty
-                              ? Image.network(data['imagePath'], width: 100, height: 100, fit: BoxFit.cover)
-                              : Image.asset('assets/add3.jpg', width: 100, height: 100, fit: BoxFit.fitWidth),
+                          child: imageUrl.isNotEmpty
+                              ? Image.network(imageUrl,
+                                  width: 100, height: 100, fit: BoxFit.cover)
+                              : Image.asset('assets/add3.jpg',
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.fitWidth),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -100,7 +139,7 @@ class _ViewOffersState extends State<ViewOffers> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data["title"] ?? "Special Offer",
+                                title,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
@@ -110,22 +149,28 @@ class _ViewOffersState extends State<ViewOffers> {
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  const Icon(Icons.calendar_month_outlined, size: 16, color: Colors.deepPurple),
+                                  const Icon(Icons.calendar_month_outlined,
+                                      size: 16, color: Colors.deepPurple),
                                   const SizedBox(width: 6),
                                   Text(
-                                    "Start: ${data["startingDate"] ?? ''}",
-                                    style: TextStyle(fontSize: 14, color: Colors.deepPurple.shade400),
+                                    "Start: $start",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.deepPurple.shade400),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  const Icon(Icons.calendar_today_outlined, size: 16, color: Colors.deepPurple),
+                                  const Icon(Icons.calendar_today_outlined,
+                                      size: 16, color: Colors.deepPurple),
                                   const SizedBox(width: 6),
                                   Text(
-                                    "End: ${data["endingDate"] ?? ''}",
-                                    style: TextStyle(fontSize: 14, color: Colors.deepPurple.shade400),
+                                    "End: $end",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.deepPurple.shade400),
                                   ),
                                 ],
                               ),
@@ -144,8 +189,11 @@ class _ViewOffersState extends State<ViewOffers> {
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
                                       backgroundColor: Colors.deepPurple,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 10),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -156,8 +204,11 @@ class _ViewOffersState extends State<ViewOffers> {
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
                                       backgroundColor: Colors.redAccent,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 10),
                                     ),
                                   ),
                                 ],
@@ -170,21 +221,23 @@ class _ViewOffersState extends State<ViewOffers> {
                   );
                 },
               ),
+            );
+          },
+        ),
+        Positioned(
+          right: 20,
+          bottom: 20,
+          child: FloatingActionButton.extended(
+            onPressed: () => widget.onNavigate2(const AddOffers()),
+            backgroundColor: Colors.deepPurpleAccent,
+            icon: const Icon(Icons.add),
+            label: const Text(
+              'Add Offer',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-
-            Positioned(
-              right: 20,
-              bottom: 20,
-              child: FloatingActionButton.extended(
-                onPressed: () => widget.onNavigate2(AddOffers()),
-                backgroundColor: Colors.deepPurpleAccent,
-                icon: const Icon(Icons.add),
-                label: const Text('Add Offer', style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }
